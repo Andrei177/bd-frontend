@@ -1,15 +1,15 @@
 import { FC } from "react";
 import s from "./AuthForm.module.css";
-import Input from "../ui/input/Input";
-import Button from "../ui/button/Button";
+import Input from "../../../shared/ui/input/Input";
+import Button from "../../../shared/ui/button/Button";
 import { Link } from "react-router-dom";
-import { Routes } from "../../app/router/routes";
+import { Routes } from "../../../shared/config/routes";
 
 interface IAuthForm{
     isSignIn: boolean;
 }
 
-const AuthForm: FC<IAuthForm> = ({isSignIn}) => {
+export const AuthForm: FC<IAuthForm> = ({isSignIn}) => {
     return (
         <form className={s.form}>
             <h2 className={s.title}>{isSignIn ? "Вход" : "Регистрация"}</h2>
@@ -29,5 +29,3 @@ const AuthForm: FC<IAuthForm> = ({isSignIn}) => {
         </form>
     )
 }
-
-export default AuthForm

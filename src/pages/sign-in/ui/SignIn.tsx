@@ -1,5 +1,5 @@
-import AuthFormLayout from "../../../shared/auth-form-layout/AuthFormLayout"
-import AuthForm from "../../../shared/auth-form/AuthForm"
+import AuthFormLayout from "../../../shared/ui/auth-form-layout/AuthFormLayout"
+import { AuthForm } from "../../../widgets/auth-form"
 
 const SignIn = () => {
   return (
