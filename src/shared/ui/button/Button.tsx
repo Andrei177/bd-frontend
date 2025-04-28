@@ -6,12 +6,10 @@ interface IButton extends ButtonHTMLAttributes<HTMLButtonElement>{
     className?: string;
 }
 
-const Button: FC<IButton> = ({className, ...props}) => {
+export const Button: FC<IButton> = ({className, ...props}) => {
   return (
     <button className={cn(s.btn, className)}>
       {props.children}
     </button>
   )
 }
-
-export default Button

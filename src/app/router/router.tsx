@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Routes } from "../../shared/config/routes";
-import SignIn from "../../pages/sign-in/ui/SignIn";
-import SignUp from "../../pages/sign-up/ui/SignUp";
+import { Routes } from "../../shared";
+import { SignIn } from "../../pages/sign-in";
+import { SignUp } from "../../pages/sign-up";
 
 export const router = createBrowserRouter([
     {
