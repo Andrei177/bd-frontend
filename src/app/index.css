@@ -10,3 +10,6 @@
     src: url("../shared/fonts/Inter-Regular.woff2") format("woff2");
     font-weight: normal;
 }
+.active{
+    text-decoration: underline !important;
+}

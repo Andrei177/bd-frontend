@@ -1,6 +1,6 @@
 import { FC, MouseEvent, useState } from "react";
 import s from "./AuthForm.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Routes, Button, Input, Loader } from "../../../shared";
 import { AuthFormSchema } from "../model/auth-form.schema";
 import { signin, signup } from "../../../features/auth";
@@ -16,6 +16,8 @@ export const AuthForm: FC<IAuthForm> = ({ isSignIn }) => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    const navigate = useNavigate();
+
     const handleSubmit = (e: MouseEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -27,6 +29,7 @@ export const AuthForm: FC<IAuthForm> = ({ isSignIn }) => {
                 signin(formData.snils, formData.password)
                     .then(res => {
                         console.log("Ответ при входе", res)
+                        navigate(Routes.LK)
                     })
                     .catch(err => {
                         console.error(err, "Ошибка при входе")
@@ -36,10 +39,11 @@ export const AuthForm: FC<IAuthForm> = ({ isSignIn }) => {
             else {
                 signup(formData.snils, formData.password)
                     .then(res => {
-                        console.log("Ответ при входе", res)
+                        console.log("Ответ при регистрации", res)
+                        navigate(Routes.LK)
                     })
                     .catch(err => {
-                        console.error(err, "Ошибка при входе")
+                        console.error(err, "Ошибка при регистрации")
                     })
                     .finally(() => setIsLoading(false))
             }
@@ -59,7 +63,7 @@ export const AuthForm: FC<IAuthForm> = ({ isSignIn }) => {
     return (
         <div className={s.layout}>
             <form className={s.form} onSubmit={handleSubmit}>
-                {isLoading && <div className={s.loader_wrap}><Loader/></div>}
+                {isLoading && <div className={s.loader_wrap}><Loader /></div>}
                 <h2 className={s.title}>{isSignIn ? "Вход" : "Регистрация"}</h2>
                 <div className={s.form_item}>
                     <label htmlFor="snils">СНИЛС</label>

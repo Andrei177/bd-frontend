@@ -1,1 +1,2 @@
-export { refreshTokens, signin, signup } from "./api/api"
+export { refreshTokens, signin, signup, logout } from "./api/api"
+export { AuthWrapper } from "./ui/AuthWrapper"

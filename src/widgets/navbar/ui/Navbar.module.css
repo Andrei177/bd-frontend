@@ -1,0 +1,14 @@
+.navbar{
+    display: flex;
+    justify-content: end;
+    gap: 25px;
+    padding: 26px 100px;
+    list-style-type: none;
+    background-color: #7AEC9A;
+}
+.nav_item a, .nav_item{
+    font-size: 24px;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+}
