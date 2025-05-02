@@ -26,7 +26,9 @@ export const AuthWrapper = () => {
             }
             //navigate(Routes.LK, { replace: true }) при разработке, когда бэк отключен
         })
-        .finally(() => setIsLoading(false))
+        .finally(() => {
+            setTimeout(() => setIsLoading(false), 0)
+        })
     }, [])
 
     if(isLoading){
