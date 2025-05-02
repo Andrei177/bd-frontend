@@ -1,0 +1,25 @@
+.container{
+    padding: 10px 85px;
+}
+.title{
+    text-align: center;
+    padding-bottom: 15px;
+}
+.content{
+    display: flex;
+    justify-content: space-around;
+    gap: 25px;
+}
+.data_block{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+.bottom_btn{
+    padding-top: 30px;
+    text-align: center;
+}
+.bottom_btn button{
+    width: 350px;
+}

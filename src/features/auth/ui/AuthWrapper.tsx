@@ -24,6 +24,7 @@ export const AuthWrapper = () => {
             if(!isPublicPage(pathname)){
                 navigate(Routes.SIGNIN, { replace: true })
             }
+            //navigate(Routes.LK, { replace: true }) при разработке, когда бэк отключен
         })
         .finally(() => setIsLoading(false))
     }, [])

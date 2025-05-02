@@ -1,0 +1,22 @@
+.wrap{
+    position: relative;
+    height: 60px;
+    width: 100%;
+}
+.hide_inp{
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+}
+.title{
+    position: absolute;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background: #F0F0F0;
+    cursor: pointer;
+}

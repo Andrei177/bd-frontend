@@ -6,6 +6,7 @@ import { AuthWrapper } from "../../features/auth";
 import { Lk } from "../../pages/lk";
 import { Lists } from "../../pages/lists";
 import { Home } from "../../pages/home";
+import { Settings } from "../../pages/settings";
 
 export const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
             {
                 path: Routes.LISTS,
                 element: <Lists/>
+            },
+            {
+                path: Routes.SETTINGS,
+                element: <Settings/>
             }
         ]
     },

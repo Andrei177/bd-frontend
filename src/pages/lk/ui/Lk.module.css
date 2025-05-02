@@ -1,0 +1,44 @@
+.container{
+    padding: 10px 85px;
+}
+.title{
+    text-align: center;
+    padding-bottom: 15px;
+}
+.content{
+    display: flex;
+    justify-content: start;
+    gap: 30px;
+}
+.content p{
+    font-size: 17px;
+}
+.subtitle{
+    padding-bottom: 15px;
+}
+.main_data{
+    border-radius: 15px;
+    background: #F0F0F0;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.main_data h4{
+    font-weight: 600;
+}
+.btn{
+    margin-top: 15px;
+    width: 100%;
+}
+.directions{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.direction{
+    background: #F0F0F0;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}

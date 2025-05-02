@@ -8,6 +8,6 @@ interface IInput extends InputHTMLAttributes<HTMLInputElement>{
 
 export const Input: FC<IInput> = ({className, ...props}) => {
   return (
-    <input {...props} type="text" className={cn(s.inp, className)}/>
+    <input {...props} className={cn(s.inp, className)}/>
   )
 }
