@@ -1,0 +1,19 @@
+.inner_modal{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+.subjects{
+    height: 55vh;
+    overflow-y: scroll;
+    list-style-type: none;
+    margin: 15px 0px;
+}
+.subjects li{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+.subjects li input{
+    width: 110px;
+}

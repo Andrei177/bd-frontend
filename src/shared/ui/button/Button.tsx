@@ -8,7 +8,7 @@ interface IButton extends ButtonHTMLAttributes<HTMLButtonElement>{
 
 export const Button: FC<IButton> = ({className, ...props}) => {
   return (
-    <button className={cn(s.btn, className)}>
+    <button className={cn(s.btn, className)} {...props}>
       {props.children}
     </button>
   )

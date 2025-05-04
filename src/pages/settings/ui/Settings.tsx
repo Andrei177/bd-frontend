@@ -1,9 +1,42 @@
-import { Button, Input, Select } from "../../../shared"
+import { useEffect, useState } from "react"
+import { Button, Input, Modal, Select } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Settings.module.css"
 import UploadFile from "./UploadFile"
+import { getAchievements, getSubjects, IAchievement, ISubject, useEnrolleeStore } from "../../../entities/enrollee"
+import { SelectSubjects } from "./SelectSubjects"
 
 export const Settings = () => {
+
+    const [showModal, setShowModal] = useState(false);
+    const [subjects, setSubjects] = useState<(ISubject)[]>([])
+    const { subjects: subjectsStore} = useEnrolleeStore();
+
+    const [achievements, setAchievements] = useState<IAchievement[]>([])
+
+    useEffect(() => {
+        getSubjects()
+            .then(res => {
+                const tmpArr: ISubject[] = res.data.subjects;
+
+                subjectsStore.forEach(sub => {
+                    if (sub.result) {
+                        for (let i = 0; i < tmpArr.length; i++) {
+                            if (sub.subject_id == tmpArr[i].subject_id) {
+                                tmpArr[i] = {...tmpArr[i], result: sub.result}
+                            }
+                        }
+                    }
+                })
+
+                setSubjects([...tmpArr])
+            })
+            .catch(err => console.error("Ошибка при получении предметов", err))
+
+        getAchievements()
+            .then(res => setAchievements(res.data.achievements))
+            .catch(err => console.error("Ошибка при получении достижений", err))
+    }, [])
     return (
         <>
             <Navbar />
@@ -18,7 +51,7 @@ export const Settings = () => {
                         <p>Отчество (если есть)</p>
                         <Input placeholder="Введите отчество..." />
                         <p>Предметы ЕГЭ</p>
-                        <Button>Указать</Button>
+                        <Button onClick={() => setShowModal(true)}>Указать</Button>
                         <p>Скан аттестата</p>
                         <UploadFile />
                     </div>
@@ -32,7 +65,7 @@ export const Settings = () => {
                     </div>
                     <div className={s.data_block}>
                         <p>Индивидуальные достижения</p>
-                        <Select options={["Золото ГТО", "Победа на олимпиаде", "Что-то крутое"]} />
+                        <Select options={achievements.map(achiev => ({ value: achiev.achievement_id, label: achiev.name_achievement }))} />
                         <p>Скан Золото ГТО</p>
                         <UploadFile />
                     </div>
@@ -41,6 +74,9 @@ export const Settings = () => {
                     <Button>Сохранить</Button>
                 </div>
             </div>
+            <Modal showModal={showModal} setShowModal={setShowModal}>
+                <SelectSubjects setShowModal={setShowModal} subjects={subjects} setSubjects={setSubjects}/>
+            </Modal>
         </>
     )
 }

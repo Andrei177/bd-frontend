@@ -1,21 +1,24 @@
-import {  NavLink, useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import s from "./Navbar.module.css"
 import { Routes } from "../../../shared"
 import { logout } from "../../../features/auth"
+import { useEnrolleeStore } from "../../../entities/enrollee"
 
 export const Navbar = () => {
 
   const navigate = useNavigate();
-
+  const { enrollee, setEnrollee } = useEnrolleeStore();
+  
   const handleLogout = () => {
     logout()
-    .then(res => {
-      console.log("Ответ при выходе из аккаунта", res)
-      navigate(Routes.ROOT)
-    })
-    .catch(err => {
-      console.error("Ошибка при выходе из аккаунта", err)
-    })
+      .then(res => {
+        console.log("Ответ при выходе из аккаунта", res)
+        setEnrollee({ ...enrollee, enrollee_id: null })
+        navigate(Routes.ROOT)
+      })
+      .catch(err => {
+        console.error("Ошибка при выходе из аккаунта", err)
+      })
   }
 
   return (
