@@ -3,13 +3,13 @@ import { IEnrolleeStore } from "./interfaces";
 
 export const useEnrolleeStore = create<IEnrolleeStore>((set) => ({
   enrollee: {
-    enrollee_id: null,
+    enrollee_id: undefined,
     first_name: "",
     last_name: "",
     patronymic: "",
     passport_series: "",
     passport_number: "",
-    user_id: null,
+    user_id: undefined,
   },
   snils: "",
   subjects: [],

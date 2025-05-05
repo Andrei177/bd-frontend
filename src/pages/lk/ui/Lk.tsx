@@ -17,6 +17,7 @@ export const Lk = () => {
             getEnrolleeData()
                 .then(res => {
                     setAll(res.data)
+                    console.log("Ответ при получении данных абитуриента", res)
                 })
                 .catch(err => {
                     console.error("Ошибка при получении данных абитуриента", err)
@@ -24,7 +25,7 @@ export const Lk = () => {
                 })
                 .finally(() => setIsLoading(false))
         }
-    }, [])
+    }, [enrollee.enrollee_id])
 
     return (
         <>

@@ -3,6 +3,10 @@
     height: 60px;
     width: 100%;
 }
+.wrap img{
+    height: 100px;
+    width: auto;
+}
 .hide_inp{
     position: absolute;
     z-index: 1;

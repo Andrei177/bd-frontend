@@ -1,20 +1,72 @@
-import { $privateApi, $publicApi } from "../../../shared"
-import { IAchievementEnrollee, IEnrolleeStore, ISubjectEnrollee } from "../model/interfaces";
+import { $privateApi, $publicApi } from "../../../shared";
+import {
+  IAchievementEnrollee,
+  IEnrolleeInfo,
+  ISubjectEnrollee,
+} from "../model/interfaces";
+import { RequestSetEnrolleeAgrs, ResponseSetEnrollee } from "./types";
 
 export const getEnrolleeData = async () => {
-    const response = await $privateApi.get<IEnrolleeStore>("/enrollee");
-    
-    return response;
-}
+  const response = await $privateApi.get<IEnrolleeInfo>("/enrollee");
+
+  return response;
+};
+
+export const saveEnrollee = async (args: RequestSetEnrolleeAgrs) => {
+  const formData = new FormData();
+
+  console.log(args)
+
+  if (args.achievements) {
+    args.achievements.forEach((item) => {
+      formData.append("achievements_files", item.achievementFile);
+    });
+  }
+  if (args.achievements) {
+    formData.append(
+      "achievements",
+      JSON.stringify(
+        args.achievements.map((a) => ({ achievement_id: a.achievement_id }))
+      )
+    );
+  }
+  if(args.subjects){
+    formData.append(
+        "subjects",
+        JSON.stringify(
+          args.subjects
+        )
+    );
+  }
+  if (args.first_name) formData.append("first_name", args.first_name)
+  if (args.last_name) formData.append("last_name", args.last_name);
+  if (args.patronymic) formData.append("patronymic", args.patronymic);
+
+  if(args.passport_series) formData.append("passport_series", args.passport_series);
+  if(args.passport_number) formData.append("passport_number", args.passport_number);
+
+  if (args.scanPassport) formData.append("scanPassport", args.scanPassport);
+  if (args.scanCertificate) formData.append("scanCertificate", args.scanCertificate);
+
+  console.log(formData, "данные для отправки на бэкенд")
+
+  const response = await $privateApi.post<ResponseSetEnrollee>("/enrollee", formData);
+
+  return response;
+};
 
 export const getSubjects = async () => {
-    const response = await $publicApi.get<Record<"subjects", ISubjectEnrollee[]>>("/subjects");
-    
-    return response;
-}
+  const response = await $publicApi.get<Record<"subjects", ISubjectEnrollee[]>>(
+    "/subjects"
+  );
+
+  return response;
+};
 
 export const getAchievements = async () => {
-    const response = await $publicApi.get<Record<"achievements", IAchievementEnrollee[]>>("/achievements");
-    
-    return response;
-}
+  const response = await $publicApi.get<
+    Record<"achievements", IAchievementEnrollee[]>
+  >("/achievements");
+
+  return response;
+};

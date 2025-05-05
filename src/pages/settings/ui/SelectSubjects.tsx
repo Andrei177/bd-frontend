@@ -1,19 +1,41 @@
 import { nanoid } from "nanoid"
-import { ISubject } from "../../../entities/enrollee"
+import { getSubjects, ISubjectEnrollee, useEnrolleeStore } from "../../../entities/enrollee"
 import { Button, Input } from "../../../shared"
 import s from "./SelectSubjects.module.css"
-import { ChangeEvent } from "react"
+import { ChangeEvent, useEffect } from "react"
 
 interface ISelectSubjects {
-    subjects: ISubject[],
-    setSubjects: (subj: ISubject[]) => void,
+    subjects: ISubjectEnrollee[],
+    setSubjects: (subj: ISubjectEnrollee[]) => void,
     setShowModal: (bool: boolean) => void
 }
 
 export const SelectSubjects = ({ subjects, setSubjects, setShowModal }: ISelectSubjects) => {
 
+    const { subjects: subjectsStore } = useEnrolleeStore();
+
+    useEffect(() => {
+        getSubjects()
+            .then(res => {
+                const tmpArr: ISubjectEnrollee[] = res.data.subjects;
+
+                subjectsStore.forEach(sub => {
+                    if (sub.result) {
+                        for (let i = 0; i < tmpArr.length; i++) {
+                            if (sub.subject_id == tmpArr[i].subject_id) {
+                                tmpArr[i] = { ...tmpArr[i], result: sub.result }
+                            }
+                        }
+                    }
+                })
+
+                setSubjects([...tmpArr])
+            })
+            .catch(err => console.error("Ошибка при получении предметов", err))
+    }, [])
+
     const handleChangeInput = (e: ChangeEvent<HTMLInputElement>, subject_id: number) => {
-        const tmpArr: ISubject[] = [];
+        const tmpArr: ISubjectEnrollee[] = [];
         subjects.forEach(sub => {
             if (sub.subject_id == subject_id) {
                 tmpArr.push({ ...sub, result: +e.target.value })
