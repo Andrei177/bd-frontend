@@ -1,3 +1,7 @@
 export { useEnrolleeStore } from "./model/useEnrolleeStore"
 export { getEnrolleeData, getSubjects, getAchievements, saveEnrollee } from "./api/enrolleeApi"
 export type { ISubjectEnrollee, IAchievementEnrollee } from "./model/interfaces"
+export type { FormattedAchievement } from "./api/types"
+export { useAchievementsInfo } from "./model/useAchievementsInfo"
+export { useSubjectsInfo } from "./model/useSubjectsInfo"
+export { useEnrolleeInfo } from "./model/useEnrolleeInfo"

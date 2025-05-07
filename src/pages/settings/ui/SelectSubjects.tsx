@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid"
-import { getSubjects, ISubjectEnrollee, useEnrolleeStore } from "../../../entities/enrollee"
+import { ISubjectEnrollee } from "../../../entities/enrollee"
 import { Button, Input } from "../../../shared"
 import s from "./SelectSubjects.module.css"
-import { ChangeEvent, useEffect } from "react"
+import { ChangeEvent } from "react"
 
 interface ISelectSubjects {
     subjects: ISubjectEnrollee[],
@@ -11,28 +11,6 @@ interface ISelectSubjects {
 }
 
 export const SelectSubjects = ({ subjects, setSubjects, setShowModal }: ISelectSubjects) => {
-
-    const { subjects: subjectsStore } = useEnrolleeStore();
-
-    useEffect(() => {
-        getSubjects()
-            .then(res => {
-                const tmpArr: ISubjectEnrollee[] = res.data.subjects;
-
-                subjectsStore.forEach(sub => {
-                    if (sub.result) {
-                        for (let i = 0; i < tmpArr.length; i++) {
-                            if (sub.subject_id == tmpArr[i].subject_id) {
-                                tmpArr[i] = { ...tmpArr[i], result: sub.result }
-                            }
-                        }
-                    }
-                })
-
-                setSubjects([...tmpArr])
-            })
-            .catch(err => console.error("Ошибка при получении предметов", err))
-    }, [])
 
     const handleChangeInput = (e: ChangeEvent<HTMLInputElement>, subject_id: number) => {
         const tmpArr: ISubjectEnrollee[] = [];

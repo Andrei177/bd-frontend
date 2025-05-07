@@ -2,30 +2,12 @@ import { Link } from "react-router-dom"
 import { Button, Loader, Routes } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Lk.module.css"
-import { useEffect, useState } from "react"
-import { getEnrolleeData, useEnrolleeStore } from "../../../entities/enrollee"
+import { useEnrolleeInfo, useEnrolleeStore } from "../../../entities/enrollee"
 
 export const Lk = () => {
 
-    const [isLoading, setIsLoading] = useState(false);
-    const { setAll, enrollee, ...store } = useEnrolleeStore();
-    const [message, setMessage] = useState("");
-
-    useEffect(() => {
-        if (!enrollee.enrollee_id) {
-            setIsLoading(true)
-            getEnrolleeData()
-                .then(res => {
-                    setAll(res.data)
-                    console.log("Ответ при получении данных абитуриента", res)
-                })
-                .catch(err => {
-                    console.error("Ошибка при получении данных абитуриента", err)
-                    setMessage("Данные не найдены")
-                })
-                .finally(() => setIsLoading(false))
-        }
-    }, [enrollee.enrollee_id])
+    const { enrollee, isLoading, message } = useEnrolleeInfo()
+    const store = useEnrolleeStore();
 
     return (
         <>

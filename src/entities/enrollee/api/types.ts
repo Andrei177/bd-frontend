@@ -1,6 +1,8 @@
+import { IAchievementEnrollee } from "../model/interfaces"
+
 export type AchievementItem = {
     achievement_id: number,
-    achievementFile: Blob
+    achievement_file: Blob
 }
 export type SubjectItem = {
     subject_id: number,
@@ -26,3 +28,4 @@ export type ResponseSetEnrollee = {
         achievements: string[]
     }
 }
+export type FormattedAchievement = IAchievementEnrollee & { checked: boolean, file?: Blob }

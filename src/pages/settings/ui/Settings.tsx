@@ -1,55 +1,52 @@
 import { useEffect, useState } from "react"
-import { Button, Input, Modal, Select } from "../../../shared"
+import { Button, Input, Modal } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Settings.module.css"
 import UploadFile from "./UploadFile"
-import { getAchievements, IAchievementEnrollee, ISubjectEnrollee, saveEnrollee, useEnrolleeStore } from "../../../entities/enrollee"
+import { saveEnrollee, useAchievementsInfo, useEnrolleeInfo, useEnrolleeStore, useSubjectsInfo } from "../../../entities/enrollee"
 import { SelectSubjects } from "./SelectSubjects"
-import { RequestSetEnrolleeAgrs, SubjectItem } from "../../../entities/enrollee/api/types"
+import { AchievementItem, RequestSetEnrolleeAgrs, SubjectItem } from "../../../entities/enrollee/api/types"
+import { SelectAchievements } from "./SelectAchievements"
 
 export const Settings = () => {
+    useEnrolleeInfo()
 
     const { enrollee, setEnrollee, passport_url, certificate_url } = useEnrolleeStore();
 
-    const [showModal, setShowModal] = useState(false);
+    const [showSubjectsModal, setShowSubjectsModal] = useState(false);
+    const [showAchievementsModal, setShowAchievementsModal] = useState(false);
 
-    const [visibleSubjects, setVisibleSubjects] = useState<ISubjectEnrollee[]>([]);
-
-    const [visibleAchievements, setVisibleAchievements] = useState<IAchievementEnrollee[]>([]);
-    //const [achievementFiles, setAchievementFiles] = useState<AchievementItem[]>([]);
+    const {visibleSubjects, setVisibleSubjects} = useSubjectsInfo();
+    const {visibleAchievements, setVisibleAchievements} = useAchievementsInfo();
 
     const [scanPassport, setScanPassport] = useState<Blob | string>("")
     const [scanCertificate, setScanCertificate] = useState<Blob | string>("")
 
     const handleSave = () => {
         const formattedSubjects: SubjectItem[] = visibleSubjects.filter(s => s.result).map(s => ({ subject_id: s.subject_id, result: s.result }))
-        console.log(formattedSubjects)
-        const args: RequestSetEnrolleeAgrs = { ...enrollee, subjects: formattedSubjects }
+        const formattedAchievements: AchievementItem[] = visibleAchievements.filter(a => a.checked && a.file).map(a => ({ achievement_id: a.achievement_id, achievement_file: a.file! }))
+        const args: RequestSetEnrolleeAgrs = { ...enrollee, subjects: formattedSubjects, achievements: formattedAchievements }
 
-        if(typeof scanPassport != "string") args.scanPassport = scanPassport
-        if(typeof scanCertificate != "string") args.scanCertificate = scanCertificate
+        if (typeof scanPassport != "string") args.scanPassport = scanPassport
+        if (typeof scanCertificate != "string") args.scanCertificate = scanCertificate
 
         saveEnrollee(args)
-        .then(res => {
-            console.log("Ответ при схранении данных абитуриента", res)
-        })
-        .catch(err => {
-            console.error("Ошибка при сохранении данных абитуриента", err)
-        })
-        setEnrollee({...enrollee, enrollee_id: undefined})
+            .then(res => {
+                console.log("Ответ при схранении данных абитуриента", res)
+            })
+            .catch(err => {
+                console.error("Ошибка при сохранении данных абитуриента", err)
+            })
+        setEnrollee({ ...enrollee, enrollee_id: undefined })
     }
-
     useEffect(() => {
-        getAchievements()
-            .then(res => setVisibleAchievements(res.data.achievements))
-            .catch(err => console.error("Ошибка при получении достижений", err))
         if (passport_url) {
             setScanPassport(passport_url)
         }
         if (certificate_url) {
             setScanCertificate(certificate_url)
         }
-    }, [])
+    }, [enrollee.enrollee_id])
     return (
         <>
             <Navbar />
@@ -75,9 +72,9 @@ export const Settings = () => {
                             onChange={e => setEnrollee({ ...enrollee, patronymic: e.target.value })}
                         />
                         <p>Предметы ЕГЭ</p>
-                        <Button onClick={() => setShowModal(true)}>Указать</Button>
+                        <Button onClick={() => setShowSubjectsModal(true)}>Указать</Button>
                         <p>Скан аттестата</p>
-                        <UploadFile file={scanCertificate} setFile={setScanCertificate}/>
+                        <UploadFile file={scanCertificate} setFile={setScanCertificate} />
                     </div>
                     <div className={s.data_block}>
                         <p>Серия паспорта</p>
@@ -93,21 +90,37 @@ export const Settings = () => {
                             onChange={e => setEnrollee({ ...enrollee, passport_number: e.target.value })}
                         />
                         <p>Скан паспорта</p>
-                        <UploadFile file={scanPassport} setFile={setScanPassport}/>
+                        <UploadFile file={scanPassport} setFile={setScanPassport} />
                     </div>
                     <div className={s.data_block}>
                         <p>Индивидуальные достижения</p>
-                        <Select options={visibleAchievements.map(achiev => ({ value: achiev.achievement_id, label: achiev.name_achievement }))} />
-                        {/* <p>Скан Золото ГТО</p>
-                        <UploadFile /> */}
+                        <Button onClick={() => setShowAchievementsModal(true)}>Указать</Button>
+                        {
+                            visibleAchievements.filter(ach => ach.checked).map(ach => (
+                                <div key={ach.achievement_id}>
+                                    <p>{ach.name_achievement}</p>
+                                    <UploadFile file={ach.file ? ach.file : ach.achievement_file_url} setFile={
+                                        (file: Blob) => setVisibleAchievements([...visibleAchievements.map(a => {
+                                            if (a.achievement_id == ach.achievement_id) {
+                                                return { ...a, file }
+                                            }
+                                            return a
+                                        })])
+                                    } />
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
                 <div className={s.bottom_btn}>
                     <Button onClick={handleSave}>Сохранить</Button>
                 </div>
             </div>
-            <Modal showModal={showModal} setShowModal={setShowModal}>
-                <SelectSubjects setShowModal={setShowModal} subjects={visibleSubjects} setSubjects={setVisibleSubjects} />
+            <Modal showModal={showSubjectsModal} setShowModal={setShowSubjectsModal}>
+                <SelectSubjects setShowModal={setShowSubjectsModal} subjects={visibleSubjects} setSubjects={setVisibleSubjects} />
+            </Modal>
+            <Modal showModal={showAchievementsModal} setShowModal={setShowAchievementsModal}>
+                <SelectAchievements setShowModal={setShowAchievementsModal} achievements={visibleAchievements} setAchievements={setVisibleAchievements} />
             </Modal>
         </>
     )

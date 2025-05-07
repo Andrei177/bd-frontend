@@ -1,10 +1,9 @@
 import { $privateApi, $publicApi } from "../../../shared";
 import {
-  IAchievementEnrollee,
   IEnrolleeInfo,
   ISubjectEnrollee,
 } from "../model/interfaces";
-import { RequestSetEnrolleeAgrs, ResponseSetEnrollee } from "./types";
+import { RequestSetEnrolleeAgrs, FormattedAchievement, ResponseSetEnrollee } from "./types";
 
 export const getEnrolleeData = async () => {
   const response = await $privateApi.get<IEnrolleeInfo>("/enrollee");
@@ -19,7 +18,7 @@ export const saveEnrollee = async (args: RequestSetEnrolleeAgrs) => {
 
   if (args.achievements) {
     args.achievements.forEach((item) => {
-      formData.append("achievements_files", item.achievementFile);
+      formData.append("achievement_files", item.achievement_file);
     });
   }
   if (args.achievements) {
@@ -64,9 +63,11 @@ export const getSubjects = async () => {
 };
 
 export const getAchievements = async () => {
-  const response = await $publicApi.get<
-    Record<"achievements", IAchievementEnrollee[]>
-  >("/achievements");
+  const response = await $publicApi.get<Record<"achievements", FormattedAchievement[]>>("/achievements");
+
+  response.data.achievements.forEach(ach => {
+    ach.checked = false;
+  })
 
   return response;
 };
