@@ -34,4 +34,5 @@ export interface IEnrolleeStore extends IEnrolleeInfo{
   setPassportUrl: (data: string) => void;
   setCertificateUrl: (data: string) => void;
   setAll: (data: IEnrolleeInfo) => void;
+  setEmpty: () => void;
 }

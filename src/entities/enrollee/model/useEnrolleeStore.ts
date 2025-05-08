@@ -22,5 +22,22 @@ export const useEnrolleeStore = create<IEnrolleeStore>((set) => ({
   setAchievements: (data) => set({ achievements: data }),
   setPassportUrl: (data) => set({ passport_url: data }),
   setCertificateUrl: (data) => set({ certificate_url: data }),
-  setAll: (data) => set({...data})
+  setAll: (data) => set({ ...data }),
+  setEmpty: () =>
+    set({
+      enrollee: {
+        enrollee_id: undefined,
+        first_name: "",
+        last_name: "",
+        patronymic: "",
+        passport_series: "",
+        passport_number: "",
+        user_id: undefined,
+      },
+      snils: "",
+      subjects: [],
+      achievements: [],
+      passport_url: "",
+      certificate_url: "",
+    }),
 }));

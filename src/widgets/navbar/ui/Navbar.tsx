@@ -7,13 +7,13 @@ import { useEnrolleeStore } from "../../../entities/enrollee"
 export const Navbar = () => {
 
   const navigate = useNavigate();
-  const { enrollee, setEnrollee } = useEnrolleeStore();
+  const { setEmpty } = useEnrolleeStore();
   
   const handleLogout = () => {
     logout()
       .then(res => {
         console.log("Ответ при выходе из аккаунта", res)
-        setEnrollee({ ...enrollee, enrollee_id: null })
+        setEmpty()
         navigate(Routes.ROOT)
       })
       .catch(err => {
