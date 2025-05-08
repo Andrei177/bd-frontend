@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import { useEnrolleeInfo, useEnrolleeStore } from "../../../entities/enrollee"
+import { useEnrolleeInfo, useEnrolleeStore } from "../../../entities/user"
 import { Button, Input, Loader, Modal, Select } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Lists.module.css"

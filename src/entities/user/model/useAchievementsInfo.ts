@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAchievements } from "../api/enrolleeApi";
-import { FormattedAchievement } from "../api/types";
+import { FormattedAchievement } from "../api/enrolleeTypes";
 import { useEnrolleeStore } from "./useEnrolleeStore";
 
 export const useAchievementsInfo = () => {

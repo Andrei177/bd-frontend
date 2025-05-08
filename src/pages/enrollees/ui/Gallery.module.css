@@ -1,0 +1,20 @@
+.gallery{
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(174, 174, 174, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.close_btn{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 4;
+    color: white;
+    cursor: pointer;
+}

@@ -3,9 +3,8 @@ import { Button, Input, Modal } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Settings.module.css"
 import UploadFile from "./UploadFile"
-import { saveEnrollee, useAchievementsInfo, useEnrolleeInfo, useEnrolleeStore, useSubjectsInfo } from "../../../entities/enrollee"
+import { saveEnrollee, useAchievementsInfo, useEnrolleeInfo, useEnrolleeStore, useSubjectsInfo, AchievementItem, RequestSetEnrolleeAgrs, SubjectItem } from "../../../entities/user"
 import { SelectSubjects } from "./SelectSubjects"
-import { AchievementItem, RequestSetEnrolleeAgrs, SubjectItem } from "../../../entities/enrollee/api/types"
 import { SelectAchievements } from "./SelectAchievements"
 
 export const Settings = () => {
@@ -16,8 +15,8 @@ export const Settings = () => {
     const [showSubjectsModal, setShowSubjectsModal] = useState(false);
     const [showAchievementsModal, setShowAchievementsModal] = useState(false);
 
-    const {visibleSubjects, setVisibleSubjects} = useSubjectsInfo();
-    const {visibleAchievements, setVisibleAchievements} = useAchievementsInfo();
+    const { visibleSubjects, setVisibleSubjects } = useSubjectsInfo();
+    const { visibleAchievements, setVisibleAchievements } = useAchievementsInfo();
 
     const [scanPassport, setScanPassport] = useState<Blob | string>("")
     const [scanCertificate, setScanCertificate] = useState<Blob | string>("")
@@ -51,6 +50,9 @@ export const Settings = () => {
         <>
             <Navbar />
             <div className={s.container}>
+                {enrollee.status === 'approve' && <div className={s.not_edit}>
+                    <p>Редактирование недоступно, так как Ваши данные уже прошли проверку</p>
+                </div>}
                 <h1 className={s.title}>Редактирование данных</h1>
                 <div className={s.content}>
                     <div className={s.data_block}>

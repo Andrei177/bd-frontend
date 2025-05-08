@@ -7,6 +7,7 @@ import { Lk } from "../../pages/lk";
 import { Lists } from "../../pages/lists";
 import { Home } from "../../pages/home";
 import { Settings } from "../../pages/settings";
+import { Enrollees } from "../../pages/enrollees";
 
 export const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
             {
                 path: Routes.SETTINGS,
                 element: <Settings/>
+            },
+            {
+                path: Routes.ENROLLEES,
+                element: <Enrollees/>
             }
         ]
     },

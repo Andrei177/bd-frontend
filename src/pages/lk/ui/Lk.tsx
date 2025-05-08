@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { Button, Loader, Routes } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Lk.module.css"
-import { useEnrolleeInfo, useEnrolleeStore } from "../../../entities/enrollee"
+import { useEnrolleeInfo, useEnrolleeStore } from "../../../entities/user"
 
 export const Lk = () => {
 

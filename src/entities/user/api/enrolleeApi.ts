@@ -3,19 +3,25 @@ import {
   IEnrolleeInfo,
   ISubjectEnrollee,
 } from "../model/interfaces";
-import { RequestSetEnrolleeAgrs, FormattedAchievement, ResponseSetEnrollee } from "./types";
+import { RequestSetEnrolleeAgrs, FormattedAchievement, ResponseSetEnrollee } from "./enrolleeTypes";
 
-export const getEnrolleeData = async () => {
-  const response = await $privateApi.get<IEnrolleeInfo>("/enrollee");
+export const getEnrolleeData = async (user_id: number | null) => {
+  if(!user_id) return Promise.reject({message: "Не передан id пользователя"})
+  const response = await $privateApi.get<IEnrolleeInfo>("/enrollee", {
+    params: {
+      user_id
+    }
+  });
 
   return response;
 };
 
 export const saveEnrollee = async (args: RequestSetEnrolleeAgrs) => {
+  if(args.status === 'approve') return Promise.reject({message: "Редактирование невозможно, так как Ваши данные уже прошли проверку"})
   const formData = new FormData();
 
   console.log(args)
-
+  if (args.status) formData.append("status", "unchecked");
   if (args.achievements) {
     args.achievements.forEach((item) => {
       formData.append("achievement_files", item.achievement_file);
@@ -71,3 +77,9 @@ export const getAchievements = async () => {
 
   return response;
 };
+
+export const getCauseReject = async () => {
+  const response = await $privateApi.get("/enrollee/cause-reject");
+
+  return response;
+}

@@ -6,6 +6,7 @@ export interface IEnrollee {
   passport_series?: string;
   passport_number?: string;
   user_id?: number;
+  status: 'reject' | 'approve' |'unchecked';
 }
 export interface ISubjectEnrollee {
   subject_id: number;

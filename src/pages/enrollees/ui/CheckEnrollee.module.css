@@ -1,0 +1,41 @@
+.wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    width: 350px;
+    padding: 10px;
+}
+.item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.subtitle{
+    font-weight: 600;
+}
+.achievements{
+    display: flex;
+    flex-direction: column;
+}
+.subjects{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.btns{
+    display: flex;
+    justify-content: space-between;
+}
+.btns button{
+    width: 150px;
+}
+.red{
+    background-color: red;
+}
+.cause_reject{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 10px;
+}

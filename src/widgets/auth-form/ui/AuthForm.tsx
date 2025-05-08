@@ -3,8 +3,9 @@ import s from "./AuthForm.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Routes, Button, Input, Loader } from "../../../shared";
 import { AuthFormSchema } from "../model/auth-form.schema";
-import { signin, signup } from "../../../features/auth";
+import { getInfoByJwt, signin, signup } from "../../../features/auth";
 import { z } from "zod";
+import { ADMIN_ROLE_ID, useUserStore } from "../../../entities/user";
 
 interface IAuthForm {
     isSignIn: boolean;
@@ -15,6 +16,7 @@ export const AuthForm: FC<IAuthForm> = ({ isSignIn }) => {
     const [formData, setFormData] = useState({ snils: "", password: "" });
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { setUser } = useUserStore();
 
     const navigate = useNavigate();
 
@@ -29,7 +31,14 @@ export const AuthForm: FC<IAuthForm> = ({ isSignIn }) => {
                 signin(formData.snils, formData.password)
                     .then(res => {
                         console.log("Ответ при входе", res)
-                        navigate(Routes.LK)
+                        const decodedInfo = getInfoByJwt(res.data.accessToken);
+                        setUser(decodedInfo);
+                        if(decodedInfo.roleId == ADMIN_ROLE_ID){
+                            navigate(Routes.ENROLLEES)
+                        }
+                        else{
+                            navigate(Routes.LK)
+                        }
                     })
                     .catch(err => {
                         console.error(err, "Ошибка при входе")
@@ -40,7 +49,14 @@ export const AuthForm: FC<IAuthForm> = ({ isSignIn }) => {
                 signup(formData.snils, formData.password)
                     .then(res => {
                         console.log("Ответ при регистрации", res)
-                        navigate(Routes.LK)
+                        const decodedInfo = getInfoByJwt(res.data.accessToken);
+                        setUser(decodedInfo);
+                        if(decodedInfo.roleId == ADMIN_ROLE_ID){
+                            navigate(Routes.ENROLLEES)
+                        }
+                        else{
+                            navigate(Routes.LK)
+                        }
                     })
                     .catch(err => {
                         console.error(err, "Ошибка при регистрации")

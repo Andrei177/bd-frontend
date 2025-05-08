@@ -10,6 +10,7 @@ export const useEnrolleeStore = create<IEnrolleeStore>((set) => ({
     passport_series: "",
     passport_number: "",
     user_id: undefined,
+    status: 'unchecked'
   },
   snils: "",
   subjects: [],
@@ -33,6 +34,7 @@ export const useEnrolleeStore = create<IEnrolleeStore>((set) => ({
         passport_series: "",
         passport_number: "",
         user_id: undefined,
+        status: 'unchecked'
       },
       snils: "",
       subjects: [],

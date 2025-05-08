@@ -17,7 +17,8 @@ export type RequestSetEnrolleeAgrs = Partial<{
     last_name: string,
     patronymic: string,
     achievements: AchievementItem[],
-    subjects: SubjectItem[]
+    subjects: SubjectItem[],
+    status: 'reject' | 'approve' | 'unchecked'
 }>
 export type ResponseSetEnrollee = {
     success: boolean,

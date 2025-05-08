@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import { FormattedAchievement } from "../../../entities/enrollee"
+import { FormattedAchievement } from "../../../entities/user"
 import { Button, Input } from "../../../shared"
 import s from "./SelectSubjects.module.css"
 import { ChangeEvent } from "react"
