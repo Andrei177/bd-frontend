@@ -3,11 +3,26 @@ import { Button, Loader, Notification, Routes } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Lk.module.css"
 import { useEnrolleeInfo, useEnrolleeStore } from "../../../entities/user"
+import { useEffect, useState } from "react"
+import { getDirectionsEnrollee } from "../../../entities/user/api/enrolleeApi"
+import { DirectionResponse } from "../../../entities/user/api/enrolleeTypes"
 
 export const Lk = () => {
 
     const { enrollee, isLoading, message, notification, setNotification } = useEnrolleeInfo()
     const store = useEnrolleeStore();
+    const [directionsEnrollee, setDirectionsEnrollee] = useState<DirectionResponse[]>([]);
+
+    useEffect(() => {
+        getDirectionsEnrollee(enrollee.enrollee_id)
+            .then(res => {
+                console.log("Направления абитуриента", res)
+                setDirectionsEnrollee(res.data)
+            })
+            .catch(err => {
+                console.log("Ошибка при получении направлений абитуриента", err)
+            })
+    }, [enrollee.enrollee_id])
 
     return (
         <>
@@ -47,9 +62,9 @@ export const Lk = () => {
                                     message
                                         ? <h3>{message}</h3>
                                         : <div className={s.directions}>
-                                            <p className={s.direction}>09.03.01 Информатика и вычислительная техника</p>
-                                            <p className={s.direction}>09.03.01 Информатика и вычислительная техника</p>
-                                            <p className={s.direction}>09.03.01 Информатика и вычислительная техника</p>
+                                            {directionsEnrollee.map(d => (
+                                                <p key={d.direction_id} className={s.direction}>{d.number_direction} {d.name_direction}</p>
+                                            ))}
                                         </div>
                                 }
                             </div>

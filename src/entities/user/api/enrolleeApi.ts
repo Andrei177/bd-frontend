@@ -3,7 +3,7 @@ import {
   IEnrolleeInfo,
   ISubjectEnrollee,
 } from "../model/interfaces";
-import { RequestSetEnrolleeAgrs, FormattedAchievement, ResponseSetEnrollee } from "./enrolleeTypes";
+import { RequestSetEnrolleeAgrs, FormattedAchievement, ResponseSetEnrollee, DirectionResponse } from "./enrolleeTypes";
 
 export const getEnrolleeData = async (user_id: number | null) => {
   if(!user_id) return Promise.reject({message: "Не передан id пользователя"})
@@ -80,6 +80,14 @@ export const getAchievements = async () => {
 
 export const getCauseReject = async () => {
   const response = await $privateApi.get<Record<"cause_reject", string>>("/enrollee/cause-reject");
+
+  return response;
+}
+
+export const getDirectionsEnrollee = async (enrolleeId: number | undefined) => {
+  if(!enrolleeId) return Promise.reject({message: "Не передан id абитуриента"});
+
+  const response = await $privateApi.get<DirectionResponse[]>(`/directions/${enrolleeId}`);
 
   return response;
 }

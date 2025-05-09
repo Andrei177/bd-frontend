@@ -35,20 +35,24 @@ export const Enrollees = () => {
             <Navbar />
             <div className={s.container}>
                 <h1 className={s.title}>Проверка абитуриентов</h1>
-                <div className={s.list}>
-                    {/* <div className={s.item}>СНИЛС ФАМИЛИЯ ИМЯ ОТЧЕСТВО</div> */}
-                    {
-                        enrolleesList.map((e, i) => (
-                            <div onClick={() => handleClickEnrollee(e.user_id)} className={s.item} key={e.enrollee_id}>
-                                <div>{i + 1}</div>
-                                <div>{e.user_snils} {e.last_name} {e.first_name} {e.patronymic}</div>
-                            </div>
-                        ))
-                    }
-                </div>
+                {
+                    enrolleesList.length > 0
+                        ? <div className={s.list}>
+                            {/* <div className={s.item}>СНИЛС ФАМИЛИЯ ИМЯ ОТЧЕСТВО</div> */}
+                            {
+                                enrolleesList.map((e, i) => (
+                                    <div onClick={() => handleClickEnrollee(e.user_id)} className={s.item} key={e.enrollee_id}>
+                                        <div>{i + 1}</div>
+                                        <div>{e.user_snils} {e.last_name} {e.first_name} {e.patronymic}</div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        : <h3>Нет непроверенных абитуриентов</h3>
+                }
             </div>
             <Modal showModal={showModal} setShowModal={setShowModal}>
-                <CheckEnrollee userId={selectedUserId} setUserId={setSelectedUserId} setShowModal={setShowModal}/>
+                <CheckEnrollee userId={selectedUserId} setUserId={setSelectedUserId} setShowModal={setShowModal} />
             </Modal>
         </>
     )

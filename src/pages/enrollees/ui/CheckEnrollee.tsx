@@ -70,7 +70,7 @@ export const CheckEnrollee = ({ userId, setUserId, setShowModal }: ICheckEnrolle
                         <p className={s.subtitle}>СНИЛС <span>{enrolleeData?.snils}</span></p>
                         <p className={s.subtitle}>{enrolleeData?.enrollee.last_name} {enrolleeData?.enrollee.first_name} {enrolleeData?.enrollee.patronymic}</p>
                         <div className={s.item}>
-                            <p className={s.subtitle}>Паспорт <span>{enrolleeData?.enrollee.passport_number} {enrolleeData?.enrollee.passport_series}</span></p>
+                            <p className={s.subtitle}>Паспорт <span>{enrolleeData?.enrollee.passport_series} {enrolleeData?.enrollee.passport_number}</span></p>
                             <Button
                                 onClick={() => {
                                     setShowGallery(true);

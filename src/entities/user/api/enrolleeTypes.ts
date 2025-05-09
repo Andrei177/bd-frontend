@@ -1,5 +1,11 @@
 import { IAchievementEnrollee } from "../model/interfaces"
 
+export type DirectionResponse = {
+  direction_id: number;
+  name_direction: string;
+  number_direction: string;
+};
+
 export type AchievementItem = {
     achievement_id: number,
     achievement_file: Blob

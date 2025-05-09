@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Input, Modal } from "../../../shared"
+import { Button, Input, Modal, Notification } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Settings.module.css"
 import UploadFile from "./UploadFile"
@@ -9,7 +9,7 @@ import { SelectAchievements } from "./SelectAchievements"
 
 export const Settings = () => {
     useEnrolleeInfo()
-
+    const [notificationAfterSave, setNotificationAfterSave] = useState({msg: "", show: false});
     const { enrollee, setEnrollee, passport_url, certificate_url } = useEnrolleeStore();
 
     const [showSubjectsModal, setShowSubjectsModal] = useState(false);
@@ -32,8 +32,10 @@ export const Settings = () => {
         saveEnrollee(args)
             .then(res => {
                 console.log("Ответ при схранении данных абитуриента", res)
+                setNotificationAfterSave({msg: "Ваши данные успешно сохранены", show: true})
             })
             .catch(err => {
+                setNotificationAfterSave({msg: "Произошла ошибка при сохранении данных, попробуйте позже", show: true})
                 console.error("Ошибка при сохранении данных абитуриента", err)
             })
         setEnrollee({ ...enrollee, enrollee_id: undefined })
@@ -49,6 +51,7 @@ export const Settings = () => {
     return (
         <>
             <Navbar />
+            <Notification notification={notificationAfterSave} setNotification={setNotificationAfterSave}/>
             <div className={s.container}>
                 {enrollee.status === 'approve' && <div className={s.not_edit}>
                     <p>Редактирование недоступно, так как Ваши данные уже прошли проверку</p>

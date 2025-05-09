@@ -18,3 +18,35 @@
 .subj_item input{
     width: 110px;
 }
+.choice_block{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.request_btn{
+    margin-left: 10px;
+}
+
+.direction_wrap{
+    padding-top: 20px;
+}
+.direction_info p{
+    font-weight: 600;
+}
+.subjects_list{
+    list-style-type: none;
+}
+.list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 0px;
+}
+.list_item{
+    border-radius: 15px;
+    background: #F0F0F0;
+    padding: 14px;
+}
+.me{
+    background-color: rgb(0, 220, 0);
+}
