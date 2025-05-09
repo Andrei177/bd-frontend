@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom"
-import { Button, Loader, Routes } from "../../../shared"
+import { Button, Loader, Notification, Routes } from "../../../shared"
 import { Navbar } from "../../../widgets/navbar"
 import s from "./Lk.module.css"
 import { useEnrolleeInfo, useEnrolleeStore } from "../../../entities/user"
 
 export const Lk = () => {
 
-    const { enrollee, isLoading, message } = useEnrolleeInfo()
+    const { enrollee, isLoading, message, notification, setNotification } = useEnrolleeInfo()
     const store = useEnrolleeStore();
 
     return (
         <>
             <Navbar />
+            <Notification notification={notification} setNotification={setNotification} />
             <div className={s.container}>
                 <h1 className={s.title}>Личный кабинет</h1>
                 {

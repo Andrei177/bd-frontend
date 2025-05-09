@@ -79,7 +79,7 @@ export const getAchievements = async () => {
 };
 
 export const getCauseReject = async () => {
-  const response = await $privateApi.get("/enrollee/cause-reject");
+  const response = await $privateApi.get<Record<"cause_reject", string>>("/enrollee/cause-reject");
 
   return response;
 }

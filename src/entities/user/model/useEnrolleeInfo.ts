@@ -5,9 +5,11 @@ import { useUserStore } from "./useUserStore";
 
 export const useEnrolleeInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [notification, setNotification] = useState({msg: "", show: false});
+
   const { setAll, enrollee } = useEnrolleeStore();
   const { userId } = useUserStore();
-  const [message, setMessage] = useState("");
   useEffect(() => {
     if (!enrollee.enrollee_id) {
       setIsLoading(true);
@@ -19,7 +21,7 @@ export const useEnrolleeInfo = () => {
             getCauseReject()
             .then(r => {
               console.log("Ответ на запрос причины отклонения данных", r)
-              alert(r.data.cause_reject)
+              setNotification({msg: r.data.cause_reject, show: true})
             })
             .catch(e => {
               console.log("Ошибка на запрос причины отклонения данных", e)
@@ -34,5 +36,5 @@ export const useEnrolleeInfo = () => {
     }
   }, []);
 
-  return {enrollee, isLoading, message};
+  return {enrollee, isLoading, message, notification, setNotification};
 };

@@ -1,0 +1,17 @@
+.notification_wrap{
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 15px;
+    background: #F0F0F0;
+    padding: 14px;
+    box-shadow: 1px 1px 4px 1px gray;
+}
+.close{
+    cursor: pointer;
+    color: rgb(0, 201, 0);
+    padding: 5px;
+}
